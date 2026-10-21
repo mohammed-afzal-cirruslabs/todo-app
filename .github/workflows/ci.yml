@@ -2,9 +2,8 @@ name: CI
 
 on:
   push:
-    branches: ['**']
-  pull_request:
     branches: [main]
+  pull_request:
 
 jobs:
   ci:
@@ -15,20 +14,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node LTS
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: lts/*
+
+      - name: Cache npm dependencies
+        if: hashFiles('package-lock.json') != ''
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-
 
       - name: Install dependencies
+        if: hashFiles('package.json') != ''
         run: npm ci
 
       - name: Lint
+        if: hashFiles('package.json') != ''
         run: npm run lint
 
       - name: Test
+        if: hashFiles('package.json') != ''
         run: npm test
 
       - name: Build
+        if: hashFiles('package.json') != ''
         run: npm run build

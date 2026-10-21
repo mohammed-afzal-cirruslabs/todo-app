@@ -1,0 +1,138 @@
+/*
+ * tokens.css — single source of truth for the todo-app design system
+ * Direction: "Vercel-calm" — Inter, indigo accent, neutral slate, generous whitespace
+ * Every colour, spacing, type-size, radius, shadow and motion value lives here.
+ * Components MUST reference these variables; literal values are a defect.
+ */
+
+/* ─────────────────────────────────────────────
+   @font-face / import
+   ───────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+/* ─────────────────────────────────────────────
+   Light theme (default)
+   ───────────────────────────────────────────── */
+:root {
+  /* --- Palette --- */
+  --color-bg:           #f8f9fb;      /* page canvas — off-white, not pure */
+  --color-surface:      #ffffff;      /* card / panel */
+  --color-surface-hover:#f3f4f6;      /* row hover */
+  --color-border:       rgba(0, 0, 0, 0.09);   /* 1 px dividers */
+  --color-border-focus: rgba(99, 102, 241, 0.5);
+  --color-control-border: rgba(0, 0, 0, 0.2);  /* unchecked checkbox ring */
+
+  /* Accent — indigo 500/600 */
+  --color-accent:       #6366f1;
+  --color-accent-hover: #4f46e5;
+  --color-accent-subtle:#eef2ff;      /* checkbox fill, active filter bg */
+
+  /* Semantic */
+  --color-danger:       #ef4444;
+  --color-danger-hover: #dc2626;
+  --color-success:      #22c55e;
+
+  /* Text */
+  --color-text-primary:   #111827;    /* ≥ 4.5:1 on --color-surface */
+  --color-text-secondary: #6b7280;    /* captions, placeholders */
+  --color-text-muted:     #9ca3af;    /* completed todo text */
+  --color-text-on-accent: #ffffff;
+
+  /* --- Typography --- */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Scale: 12 / 13 / 14 / 16 / 20 / 24 / 32 */
+  --text-xs:   0.75rem;    /* 12px — meta / badge */
+  --text-sm:   0.8125rem;  /* 13px — footer labels */
+  --text-base: 1rem;       /* 16px — body / input */
+  --text-lg:   1.25rem;    /* 20px — section heading */
+  --text-xl:   1.5rem;     /* 24px — unused reserve */
+  --text-2xl:  2rem;       /* 32px — app title */
+  --text-3xl:  3rem;       /* 48px — hero title */
+
+  /* Weight */
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semibold: 600;
+
+  /* Line-height */
+  --leading-tight:  1.25;
+  --leading-normal: 1.5;
+
+  /* Letter-spacing */
+  --tracking-wide:  0.08em;
+  --tracking-wider: 0.2em;
+
+  /* --- Spacing (4 px base) --- */
+  --space-1:  0.25rem;   /*  4px */
+  --space-2:  0.5rem;    /*  8px */
+  --space-3:  0.75rem;   /* 12px */
+  --space-4:  1rem;      /* 16px */
+  --space-5:  1.25rem;   /* 20px */
+  --space-6:  1.5rem;    /* 24px */
+  --space-8:  2rem;      /* 32px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-12: 3rem;      /* 48px */
+
+  /* --- Radii --- */
+  --radius-sm:  4px;     /* filter chips, delete button */
+  --radius-md:  10px;    /* main card */
+  --radius-full: 9999px; /* pill / checkbox ring */
+
+  /* --- Elevation (shadows) --- */
+  --shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md:  0 4px 24px rgba(0, 0, 0, 0.08);
+  --shadow-lg:  0 8px 40px rgba(0, 0, 0, 0.12);
+
+  /* --- Motion --- */
+  --duration-fast:   100ms;
+  --duration-base:   150ms;
+  --duration-slow:   250ms;
+  --ease-out:        cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* --- Control heights --- */
+  --control-sm: 2rem;    /* 32px */
+  --control-md: 2.25rem; /* 36px */
+  --control-lg: 2.75rem; /* 44px — touch target */
+
+  /* --- Layout --- */
+  --app-max-width: 560px;
+  --page-padding-x: var(--space-4);
+  --page-padding-y: var(--space-12);
+}
+
+/* ─────────────────────────────────────────────
+   Dark theme
+   ───────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Surfaces — depth from lighter, not shadows */
+    --color-bg:           #0f1117;
+    --color-surface:      #1a1d27;
+    --color-surface-hover:#22263a;
+    --color-border:       rgba(255, 255, 255, 0.08);
+    --color-border-focus: rgba(99, 102, 241, 0.6);
+    --color-control-border: rgba(255, 255, 255, 0.2);  /* unchecked checkbox ring */
+
+    /* Accent stays indigo, slightly lighter for dark bg */
+    --color-accent:       #818cf8;
+    --color-accent-hover: #6366f1;
+    --color-accent-subtle:#1e1f3b;
+
+    /* Semantic */
+    --color-danger:       #f87171;
+    --color-danger-hover: #ef4444;
+    --color-success:      #4ade80;
+
+    /* Text — re-checked for contrast on dark surface */
+    --color-text-primary:   #f1f5f9;   /* ≥ 4.5:1 on #1a1d27 */
+    --color-text-secondary: #94a3b8;
+    --color-text-muted:     #475569;
+    --color-text-on-accent: #ffffff;
+
+    /* Shadows are less useful on dark; keep subtle */
+    --shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md:  0 4px 24px rgba(0, 0, 0, 0.4);
+    --shadow-lg:  0 8px 40px rgba(0, 0, 0, 0.5);
+  }
+}

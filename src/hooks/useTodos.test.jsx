@@ -48,9 +48,13 @@ describe('useTodos', () => {
     expect(result.current.todos[0].text).toBe('keep')
   })
 
-  it('persists to localStorage so a remount reloads the todos', () => {
+  // The saveEffect in useTodos runs asynchronously after a state update.
+  // await act(async () => ...) flushes all pending effects before we read
+  // localStorage, which is what a synchronous act() does NOT guarantee.
+  it('persists to localStorage so a remount reloads the todos', async () => {
     const first = renderHook(() => useTodos())
-    act(() => first.result.current.addTodo('Survive reload'))
+    await act(async () => first.result.current.addTodo('Survive reload'))
+
     expect(JSON.parse(localStorage.getItem(STORAGE_KEY))).toHaveLength(1)
 
     // A fresh hook instance == a page reload: it loads from storage.

@@ -1,9 +1,15 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from './App.jsx'
 
 describe('Todo App', () => {
+  // Todos now persist to localStorage, which jsdom shares across tests in a
+  // file — clear it so each test starts from an empty list.
+  beforeEach(() => {
+    localStorage.clear()
+  })
+
   it('renders the heading', () => {
     render(<App />)
     expect(screen.getByRole('heading', { name: /todos/i })).toBeInTheDocument()

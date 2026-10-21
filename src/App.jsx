@@ -1,35 +1,13 @@
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
+import useTodos from './hooks/useTodos.js'
 import TodoInput from './components/TodoInput.jsx'
 import TodoList from './components/TodoList.jsx'
 import TodoFilter from './components/TodoFilter.jsx'
 import './App.css'
 
 function App() {
-  const [todos, setTodos] = useState([])
+  const { todos, addTodo, toggleTodo, deleteTodo, clearCompleted } = useTodos()
   const [filter, setFilter] = useState('all') // all | active | completed
-
-  const addTodo = useCallback((text) => {
-    const trimmed = text.trim()
-    if (!trimmed) return
-    setTodos((prev) => [
-      ...prev,
-      { id: crypto.randomUUID(), text: trimmed, completed: false },
-    ])
-  }, [])
-
-  const toggleTodo = useCallback((id) => {
-    setTodos((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)),
-    )
-  }, [])
-
-  const deleteTodo = useCallback((id) => {
-    setTodos((prev) => prev.filter((t) => t.id !== id))
-  }, [])
-
-  const clearCompleted = useCallback(() => {
-    setTodos((prev) => prev.filter((t) => !t.completed))
-  }, [])
 
   const filtered = todos.filter((t) => {
     if (filter === 'active') return !t.completed

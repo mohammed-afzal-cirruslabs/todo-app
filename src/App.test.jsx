@@ -125,4 +125,26 @@ describe('Todo App', () => {
     await user.click(screen.getByRole('checkbox', { name: /mark "one"/i }))
     expect(screen.getByText(/1 item left/i)).toBeInTheDocument()
   })
+
+  it('persists todos across a simulated reload', async () => {
+    // First "session": add two todos and complete one
+    const user = userEvent.setup()
+    const { unmount } = render(<App />)
+    const input = screen.getByPlaceholderText(/what needs to be done/i)
+    await user.type(input, 'Persisted active')
+    await user.click(screen.getByRole('button', { name: /add todo/i }))
+    await user.type(input, 'Persisted done')
+    await user.click(screen.getByRole('button', { name: /add todo/i }))
+    await user.click(screen.getByRole('checkbox', { name: /mark "persisted done"/i }))
+    // Simulate a page reload: unmount the component (localStorage is written
+    // by the useEffect in useTodos) then mount a fresh instance.
+    unmount()
+
+    // Second "session": a new App reads from localStorage on mount
+    render(<App />)
+    expect(screen.getByText('Persisted active')).toBeInTheDocument()
+    expect(screen.getByText('Persisted done')).toBeInTheDocument()
+    // The completed todo should still be marked done
+    expect(screen.getByRole('checkbox', { name: /mark "persisted done"/i })).toBeChecked()
+  })
 })

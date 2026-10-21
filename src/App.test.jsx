@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { render, screen, within } from '@testing-library/react'
+import { render, screen, within, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from './App.jsx'
 
@@ -32,7 +32,7 @@ describe('Todo App', () => {
     const user = userEvent.setup()
     render(<App />)
     const input = screen.getByPlaceholderText(/what needs to be done/i)
-    await user.type(input, '   ')
+    await user.type(input, ' ')
     expect(screen.getByRole('button', { name: /add todo/i })).toBeDisabled()
   })
 
@@ -136,15 +136,23 @@ describe('Todo App', () => {
     await user.type(input, 'Persisted done')
     await user.click(screen.getByRole('button', { name: /add todo/i }))
     await user.click(screen.getByRole('checkbox', { name: /mark "persisted done"/i }))
-    // Simulate a page reload: unmount the component (localStorage is written
-    // by the useEffect in useTodos) then mount a fresh instance.
+
+    // Flush the saveEffect useEffect before unmounting. userEvent interactions
+    // schedule state updates; the useEffect that calls saveTodos runs after the
+    // render cycle. act(async) drains the microtask queue so localStorage is
+    // written before we tear down the component.
+    await act(async () => {})
+
+    // Simulate a page reload: unmount the component then mount a fresh instance.
     unmount()
 
     // Second "session": a new App reads from localStorage on mount
     render(<App />)
     expect(screen.getByText('Persisted active')).toBeInTheDocument()
     expect(screen.getByText('Persisted done')).toBeInTheDocument()
-    // The completed todo should still be marked done
-    expect(screen.getByRole('checkbox', { name: /mark "persisted done"/i })).toBeChecked()
+    // The completed todo should still be checked
+    expect(
+      screen.getByRole('checkbox', { name: /mark "persisted done"/i })
+    ).toBeChecked()
   })
 })

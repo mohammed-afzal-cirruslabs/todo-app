@@ -20,6 +20,7 @@
   --color-surface-hover:#f3f4f6;      /* row hover */
   --color-border:       rgba(0, 0, 0, 0.09);   /* 1 px dividers */
   --color-border-focus: rgba(99, 102, 241, 0.5);
+  --color-control-border: rgba(0, 0, 0, 0.2);  /* unchecked checkbox ring */
 
   /* Accent — indigo 500/600 */
   --color-accent:       #6366f1;
@@ -111,6 +112,7 @@
     --color-surface-hover:#22263a;
     --color-border:       rgba(255, 255, 255, 0.08);
     --color-border-focus: rgba(99, 102, 241, 0.6);
+    --color-control-border: rgba(255, 255, 255, 0.2);  /* unchecked checkbox ring */
 
     /* Accent stays indigo, slightly lighter for dark bg */
     --color-accent:       #818cf8;

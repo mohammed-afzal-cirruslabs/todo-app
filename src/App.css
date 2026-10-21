@@ -116,7 +116,7 @@
   -webkit-appearance: none;
   width: 1.125rem;   /* 18px */
   height: 1.125rem;
-  border: 2px solid rgba(0, 0, 0, 0.2);
+  border: 2px solid var(--color-control-border);
   border-radius: var(--radius-full);
   flex-shrink: 0;
   cursor: pointer;
@@ -124,12 +124,6 @@
     background var(--duration-base) var(--ease-out),
     border-color var(--duration-base) var(--ease-out);
   position: relative;
-}
-
-@media (prefers-color-scheme: dark) {
-  .todo-item__checkbox {
-    border-color: rgba(255, 255, 255, 0.2);
-  }
 }
 
 .todo-item__checkbox:checked {
